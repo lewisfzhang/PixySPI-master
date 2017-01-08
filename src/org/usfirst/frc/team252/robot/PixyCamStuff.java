@@ -40,6 +40,12 @@ public class PixyCamStuff {
 		return new Frame(blocks, frameCount++);
 	}
 	
+	public void setServoPosition(int pan, int tilt) {
+		pspi.writeWord(0xff00);
+		pspi.writeWord(pan);
+		pspi.writeWord(tilt);
+	}
+	
 	public void setBrightness(int brightness) {
 		pspi.writeWord(0xfe00);
 		pspi.writeByte(brightness);
