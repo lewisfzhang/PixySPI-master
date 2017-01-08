@@ -9,6 +9,10 @@ public class PeekableSPI {
 		getNextWord();
 	}
 	
+	public void writeWord(int word) {
+		
+	}
+	
 	public int readWord() {
 		int word = nextWord;
 		getNextWord();
