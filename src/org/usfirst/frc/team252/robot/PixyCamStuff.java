@@ -40,6 +40,18 @@ public class PixyCamStuff {
 		return new Frame(blocks, frameCount++);
 	}
 	
+	public void setBrightness(int brightness) {
+		pspi.writeWord(0xfe00);
+		pspi.writeByte(brightness);
+	}
+	
+	public void setLEDOptions(int r, int g, int b) {
+		pspi.writeWord(0xfd00);
+		pspi.writeByte(r);
+		pspi.writeByte(g);
+		pspi.writeByte(b);
+	}
+	
 	private PeekableSPI pspi;
 	private int frameCount = 0;
 	
