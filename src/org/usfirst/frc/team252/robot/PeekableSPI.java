@@ -10,7 +10,13 @@ public class PeekableSPI {
 	}
 	
 	public void writeWord(int word) {
-		
+		byte[] buf = new byte[] {(byte)(word), (byte)(word>>8)};
+		spi.write(buf, buf.length);
+	}
+	
+	public void writeByte(int b) {
+		byte[] buf = new byte[] {(byte)b};
+		spi.write(buf, buf.length);
 	}
 	
 	public int readWord() {
