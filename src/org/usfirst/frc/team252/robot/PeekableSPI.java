@@ -16,7 +16,7 @@ public class PeekableSPI {
 	
 	public void writeByte(int b) {
 		byte[] buf = new byte[] {(byte)b};
-		spi.write(buf, buf.length);
+		spi.transaction(buf, new byte[buf.length], buf.length);
 	}
 	
 	public int readWord() {
@@ -31,12 +31,12 @@ public class PeekableSPI {
 	
 	private void getNextWord() {
 		byte[] buf = new byte[2];
-		spi.read(false, buf, buf.length);
+		spi.transaction(new byte[buf.length], buf, buf.length);
 		nextWord = makeWord(buf[0], buf[1]);
 	}
 	
 	private static int makeWord(byte lsb, byte msb) {
-		return Byte.toUnsignedInt(lsb) | Byte.toUnsignedInt(msb)<<8;
+		return Byte.toUnsignedInt(lsb) | Byte.toUnsignedInt(msb) << 8;
 	}
 	
 	private SPI spi;
