@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
+	private PixyCamStuff _p = new PixyCamStuff();
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 
@@ -46,6 +47,12 @@ public class Robot extends IterativeRobot {
 		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
 	}
+	
+	@Override
+	public void disabledPeriodic() {
+		Frame f = _p.getFrame();
+		
+	}
 
 	/**
 	 * This function is called periodically during autonomous
@@ -61,7 +68,6 @@ public class Robot extends IterativeRobot {
 			// Put default auto code here
 			break;
 		}
-		// Haha run the SPI code
 		
 	}
 
