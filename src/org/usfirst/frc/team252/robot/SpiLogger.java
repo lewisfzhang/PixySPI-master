@@ -12,6 +12,7 @@ public class SpiLogger {
 		spi.setClockActiveHigh();
 		spi.setSampleDataOnRising();
 		spi.setChipSelectActiveLow();
+		spi.setClockRate(500000);
 	}
 	
 	public void startLogging()
