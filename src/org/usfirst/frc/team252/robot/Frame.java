@@ -10,6 +10,10 @@ public class Frame {
 		}
 		SyncType sync;
 		int checksum, signature, centerX, centerY, width, height;
+		@Override
+		public String toString() {
+			return "Block{ center: ("+centerX+", "+centerY+"), size: "+width+"x"+height+" }";
+		}
 	}
 	
 	Frame(List<Frame.Block> blocks, int id) {
@@ -27,7 +31,7 @@ public class Frame {
 	
 	@Override
 	public String toString() {
-		return "{ blockCount: "+blocks.size()+", id: "+ id +" }";
+		return "Frame{ blockCount: "+blocks.size()+", id: "+ id +" }";
 	}
 	
 	protected List<Frame.Block> blocks;
