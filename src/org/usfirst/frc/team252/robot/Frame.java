@@ -25,6 +25,11 @@ public class Frame {
 		return id;
 	}
 	
+	@Override
+	public String toString() {
+		return "{ blockCount: "+blocks.size()+", id: "+ id +" }";
+	}
+	
 	protected List<Frame.Block> blocks;
 	protected int id;
 	

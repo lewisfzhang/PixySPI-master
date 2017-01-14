@@ -58,6 +58,11 @@ public class PixyCamStuff {
 		pspi.writeByte(b);
 	}
 	
+	@Override
+	public String toString() {
+		return "{ frameCount: "+frameCount+" }";
+	}
+	
 	private PeekableSPI pspi;
 	private int frameCount = 0;
 	
