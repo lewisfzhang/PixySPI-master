@@ -46,7 +46,12 @@ public class Robot extends IterativeRobot {
 //			e.printStackTrace(new PrintWriter(writer));
 //			SmartDashboard.putString("err", writer.toString());
 //		}
-		_spiLogger.startLogging();
+		try {
+			_spiLogger.startLogging();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		SmartDashboard.putString("cp2", "test plz work");
 	}
 
