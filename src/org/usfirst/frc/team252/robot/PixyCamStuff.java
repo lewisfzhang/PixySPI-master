@@ -35,7 +35,7 @@ public class PixyCamStuff {
 			Frame.Block b = parseBlock();
 			if (b == null) break;
 			blocks.add(b);
-			System.out.println("Block added: "+b);
+			System.out.println("Block added: " + b);
 		}
 		
 		return new Frame(blocks, frameCount++);
