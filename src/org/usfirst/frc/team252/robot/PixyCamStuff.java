@@ -19,7 +19,7 @@ public class PixyCamStuff {
 	public Frame.Block parseBlock() {
 		Frame.Block block = new Frame.Block();
 		block.sync = pspi.readWord()==0xaa55? Frame.Block.SyncType.NORMAL : Frame.Block.SyncType.COLOR_CODE;
-		if (pspi.peekWord()==0xaa55 || pspi.peekWord()==0xaa56) return null;
+		if (pspi.peekWord() == 0xaa55 || pspi.peekWord() == 0xaa56) return null;
 		block.checksum = pspi.readWord();
 		block.signature = pspi.readWord();
 		block.centerX = pspi.readWord();
