@@ -1,5 +1,8 @@
 package org.usfirst.frc.team252.robot;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -25,9 +28,24 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		//chooser.addDefault("Default Auto", defaultAuto);
+//		chooser.addObject("My Auto", customAuto);
+//		SmartDashboard.putData("Auto choices", chooser);
+
+		SmartDashboard.putString("cp1", "checkpoint #1 what");
+		try
+		{
+			Frame f = _p.getFrame();
+			SmartDashboard.putString("frame", f.toString());
+		}
+		catch (Exception e)
+		{
+			SmartDashboard.putString("ex caught", "rrrrr");
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			SmartDashboard.putString("err", writer.toString());
+		}
+		SmartDashboard.putString("cp2", "test plz work");
 	}
 
 	/**
@@ -43,16 +61,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
+//		autoSelected = chooser.getSelected();
+//		// autoSelected = SmartDashboard.getString("Auto Selector",
+//		// defaultAuto);
+//		System.out.println("Auto selected: " + autoSelected);
 	}
 	
 	@Override
 	public void disabledPeriodic() {
 		Frame f = _p.getFrame();
-		//DriverStation.reportWarning(f.toString(), false);
 		SmartDashboard.putString("frame", f.toString());
 	}
 
