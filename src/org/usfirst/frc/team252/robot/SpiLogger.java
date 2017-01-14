@@ -16,11 +16,25 @@ public class SpiLogger {
 	
 	public void startLogging()
 	{
-		for (int i=0;i<1000;i++)
+		
+//		for (int i=0;i<10;i++)
+//		{
+//			byte[] send = new byte[] {(byte) (i==0 ? 0x5a:0x5b)};
+//			byte[] d = new byte[send.length];
+//			spi.transaction(send, d, d.length);
+//			System.out.println("Rx byte ("+i+"): " + Integer.toString(Byte.toUnsignedInt(d[0]), 16));
+//		}
+		byte[] send = new byte[] {0x5a,0x00};
+		byte[] d = new byte[send.length];
+		//spi.transaction(send, d, d.length);
+		spi.write(send, send.length);
+		spi.read(false, d, d.length);
+		
+		for (byte b: d)
 		{
-			byte[] d = new byte[1];
-			spi.read(false, d, 1);
-			System.out.println("Read byte " + d[0]);
+			System.out.println("Rx byte: " + Integer.toString(Byte.toUnsignedInt(b), 16));
 		}
+//		System.out.println("Rx byte: " + Integer.toString(Byte.toUnsignedInt(d[0]), 16));
+//		System.out.println("Rx byte: " + Integer.toString(Byte.toUnsignedInt(d[1]), 16));
 	}
 }
