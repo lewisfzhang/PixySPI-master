@@ -16,8 +16,11 @@ public class SpiLogger {
 	
 	public void startLogging()
 	{
-		byte[] d = new byte[1];
-		spi.read(false, d, 1);
-		System.out.println("Read byte " + d[0]);
+		for (int i=0;i<1000;i++)
+		{
+			byte[] d = new byte[1];
+			spi.read(false, d, 1);
+			System.out.println("Read byte " + d[0]);
+		}
 	}
 }
