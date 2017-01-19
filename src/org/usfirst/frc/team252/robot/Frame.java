@@ -12,7 +12,7 @@ public class Frame {
 		int checksum, signature, centerX, centerY, width, height;
 		@Override
 		public String toString() {
-			return ":Block { center: ("+centerX+", "+centerY+"), size: "+width+"x"+height+" }";
+			return ":Block { signature: "+signature+", center: ("+centerX+", "+centerY+"), size: "+width+"x"+height+" }";
 		}
 	}
 	

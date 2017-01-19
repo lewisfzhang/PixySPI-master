@@ -11,7 +11,7 @@ public class PeekableSPI {
 		getNextWord();
 	}
 	
-	public byte getByte(byte data)
+	private byte getByte(byte data)
 	{
 		byte[] send = new byte[] {data};
 		byte[] recv = new byte[send.length];
@@ -19,19 +19,28 @@ public class PeekableSPI {
 		return recv[0];
 	}
 	
-	public int getWord()
+	private int getWord()
 	{
-		int data = 0;
 		return makeWord(getByte((byte)0), getByte((byte)0));
-//		int msb = Byte.toUnsignedInt(getByte((byte)0));
-//		int lsb = Byte.toUnsignedInt(getByte((byte)0));
-//		msb <<= 8;
-//		data =  msb | lsb;
-//		return data;
+	}
+	
+	public int readByte() {
+		int b = peekByte();
+		getNextByte();
+		return b;
+	}
+	
+	public int peekByte() {
+		return nextWord >>> 8;
+	}
+	
+	private void getNextByte() {
+		int b = Byte.toUnsignedInt(getByte((byte)0));
+		nextWord = ((nextWord&0xFF) << 8) | b;
 	}
 	
 	public int readWord() {
-		int word = nextWord;
+		int word = peekWord();
 		getNextWord();
 		return word;
 	}
@@ -41,13 +50,7 @@ public class PeekableSPI {
 	}
 	
 	private void getNextWord() {
-		if (buffer.isEmpty()) {
-			nextWord = getWord();
-		} else {
-			int bufferedWord = buffer.get(buffer.size()-1);
-			nextWord = bufferedWord;
-			buffer.remove(buffer.size()-1);
-		}
+		nextWord = getWord();
 		++wordsRead;
 //		System.out.println("Word: "+ Integer.toString(nextWord, 16));
 	}
@@ -58,16 +61,37 @@ public class PeekableSPI {
 	
 	public long getWordsRead() { return wordsRead; }
 	
-	public void pushBuffer(int word) {
-		buffer.add(word);
-	}
-	
-	private List<Integer> buffer = new ArrayList<>();
 	private SPI spi;
 	private int nextWord;
 	private long wordsRead = 0;
 	
 	private final int PIXY_SYNC_BYTE = 0x5a;
 	private final int PIXY_SYNC_BYTE_DATA = 0x5b;
+	
+	
+	
+	
+	public static String hexByte(int b) {
+		String hex = Integer.toHexString(b);
+		if (hex.length() < 2) hex = "0"+hex;
+		return hex;
+	}
+	public static void visualizeBytes(List<Integer> byteStream) {
+		System.out.println(byteStream.size()+" bytes:");
+		int numZeros = 0;
+		for (int i : byteStream) {
+			if (i == 0) {
+				numZeros++;
+			} else {
+				if (numZeros > 5) System.out.println("\n---- "+numZeros+" ZEROS ----");
+				else for (; numZeros > 0; numZeros--) System.out.print("00 ");
+				numZeros = 0;
+				System.out.print(hexByte(i)+" ");
+			}
+		}
+		if (numZeros > 5) System.out.println("\n---- "+numZeros+" ZEROS ----");
+		else for (; numZeros > 0; numZeros--) System.out.print("00 ");
+		System.out.println();
+	}
 	
 }

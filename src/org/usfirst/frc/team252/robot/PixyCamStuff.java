@@ -18,6 +18,7 @@ public class PixyCamStuff {
 	}
 	
 	public Frame.Block parseBlock() {
+		System.out.println("parseBlock");
 		Frame.Block block = new Frame.Block();
 		// Wait for sync
 //		while (pspi.peekWord() != 0xaa55) { pspi.readWord(); }
@@ -28,27 +29,33 @@ public class PixyCamStuff {
 //			System.out.println("Double-sync: end");
 //			return null;
 //		}
+		
 		// Wait for sync
-		while (pspi.peekWord() != 0xaa55) { pspi.readWord(); }
-		// we have a 0xaa55
-		pspi.pushBuffer(0xaa55); // push it back
-		int nextWord = pspi.readWord();
-		System.out.println("First sync: "+ Integer.toString(nextWord,16));
-		block.sync = nextWord==0xaa55? Frame.Block.SyncType.NORMAL : Frame.Block.SyncType.COLOR_CODE;
-		nextWord = pspi.readWord();
-		System.out.println("?Second sync: "+ Integer.toString(nextWord,16));
-		if (nextWord == 0xaa55 || nextWord == 0xaa56) {
-			// Frame ended.
-			//pspi.pushBuffer(0xaa55); // Push on a single sync
-			System.out.println("Double-sync: end");
-			return null;
+		int lastByte = 0x00;
+		for (int n=0; n<100; n++) {
+			int curByte = pspi.readByte();
+//			System.out.println("curByte = "+curByte);
+			if (lastByte==0xaa && curByte==0x55) break;
+			lastByte = curByte;
 		}
+		
+		// check if there's another sync word
+		if (pspi.peekWord() == 0xaa55) {
+			pspi.readWord(); // skip over it
+			// handle frame boundary.....
+		}
+		
+		// read the block data
 		block.checksum = pspi.readWord();
 		block.signature = pspi.readWord();
 		block.centerX = pspi.readWord();
 		block.centerY = pspi.readWord();
 		block.width = pspi.readWord();
 		block.height = pspi.readWord();
+		int chk = block.signature+block.centerX+block.centerY+block.width+block.height;
+		if (block.checksum != chk) {
+			System.out.println("BLOCK HAD AN INVALID CHECKSUM: ");
+		}
 		return block;
 	}
 	
@@ -88,14 +95,20 @@ public class PixyCamStuff {
 //		// Wait for sync (0x55aa)
 //		System.out.println("Waiting for sync checksum");
 //		while (pspi.peekWord() != 0xaa55) {pspi.readWord();}
+		
+		
+		System.out.println("getFrame");
 		List<Frame.Block> blocks = new ArrayList<>();
 		while (true) { // don't judge, it werks
 			Frame.Block b = parseBlock();
+			System.out.println("parseBlock done");
 			if (b == null) break;
-			blocks.add(b);
+//			blocks.add(b);
 			System.out.println("Block added: " + b);
+			
+			
 			try {
-				Thread.sleep(200);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
