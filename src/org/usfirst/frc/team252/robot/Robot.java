@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
-//	private PixyCamStuff _p = new PixyCamStuff();
+	private PixyCamStuff _p = new PixyCamStuff();
 	private SpiLogger _spiLogger = new SpiLogger();
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
@@ -34,24 +34,27 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putData("Auto choices", chooser);
 
 		SmartDashboard.putString("cp1", "checkpoint #1 what");
-//		try
-//		{
-//			Frame f = _p.getFrame();
-//			SmartDashboard.putString("frame", f.toString());
-//		}
-//		catch (Exception e)
-//		{
-//			SmartDashboard.putString("ex caught", "rrrrr");
-//			StringWriter writer = new StringWriter();
-//			e.printStackTrace(new PrintWriter(writer));
-//			SmartDashboard.putString("err", writer.toString());
-//		}
-		try {
-			_spiLogger.startLogging();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try
+		{
+			while (true) {
+				Frame f = _p.getFrame();
+				System.out.println("frame:: - "+f.toString());
+				SmartDashboard.putString("frame", f.toString());
+			}
 		}
+		catch (Exception e)
+		{
+			SmartDashboard.putString("ex caught", "rrrrr");
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			SmartDashboard.putString("err", writer.toString());
+		}
+//		try {
+//			_spiLogger.startLogging();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		SmartDashboard.putString("cp2", "test plz work");
 	}
 

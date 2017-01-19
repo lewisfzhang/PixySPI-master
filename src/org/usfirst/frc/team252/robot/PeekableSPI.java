@@ -1,5 +1,7 @@
 package org.usfirst.frc.team252.robot;
 
+import java.util.*;
+
 import edu.wpi.first.wpilibj.SPI;
 
 public class PeekableSPI {
@@ -9,15 +11,23 @@ public class PeekableSPI {
 		getNextWord();
 	}
 	
-	public void writeWord(int word) {
-		byte[] buf = new byte[] {(byte)(word), (byte)(word>>8)};
-		spi.write(buf, buf.length);
+	public byte getByte(byte data)
+	{
+		byte[] send = new byte[] {data};
+		byte[] recv = new byte[send.length];
+		spi.transaction(send, recv, recv.length);
+		return recv[0];
 	}
 	
-	public void writeByte(int b) {
-		//byte[] buf = new byte[] {(byte)b};
-		//spi.transaction(buf, new byte[buf.length], buf.length);
-		spi.write(new byte[] { (byte)b }, 1);		
+	public int getWord()
+	{
+		int data = 0;
+		return makeWord(getByte((byte)0), getByte((byte)0));
+//		int msb = Byte.toUnsignedInt(getByte((byte)0));
+//		int lsb = Byte.toUnsignedInt(getByte((byte)0));
+//		msb <<= 8;
+//		data =  msb | lsb;
+//		return data;
 	}
 	
 	public int readWord() {
@@ -31,38 +41,31 @@ public class PeekableSPI {
 	}
 	
 	private void getNextWord() {
-		//spi.transaction(new byte[buf.length], buf, buf.length);
-		byte[] buf = readSyncedBytes(2);
-		// this is big endian (MSB, LSB)
-		nextWord = makeWord(buf[1], buf[0]);
+		if (buffer.isEmpty()) {
+			nextWord = getWord();
+		} else {
+			int bufferedWord = buffer.get(buffer.size()-1);
+			nextWord = bufferedWord;
+			buffer.remove(buffer.size()-1);
+		}
+		++wordsRead;
+//		System.out.println("Word: "+ Integer.toString(nextWord, 16));
 	}
 	
 	private static int makeWord(byte lsb, byte msb) {
 		return Byte.toUnsignedInt(lsb) | Byte.toUnsignedInt(msb) << 8;
 	}
 	
-	private byte[] readSyncedBytes(int len)
-	{
-		byte[] r = new byte[len];
-		for (int i=0;i<len;i++)
-		{
-			r[i] = readSyncedByte();
-		}
-		return r;
+	public long getWordsRead() { return wordsRead; }
+	
+	public void pushBuffer(int word) {
+		buffer.add(word);
 	}
 	
-	private byte readSyncedByte()
-	{
-		// send sync byte
-		spi.write(new byte[] {PIXY_SYNC_BYTE }, 1);
-		// read data
-		byte[] buf = new byte[1];
-		spi.read(false, buf, buf.length);
-		return buf[0];
-	}
-	
+	private List<Integer> buffer = new ArrayList<>();
 	private SPI spi;
 	private int nextWord;
+	private long wordsRead = 0;
 	
 	private final int PIXY_SYNC_BYTE = 0x5a;
 	private final int PIXY_SYNC_BYTE_DATA = 0x5b;
