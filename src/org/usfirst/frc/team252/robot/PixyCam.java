@@ -34,7 +34,6 @@ public class PixyCam {
 		int lastByte = 0x00;
 		for (int n=0; true; n++) {
 			int curByte = pspi.readByte();
-//			System.out.println("curByte = "+curByte);
 			if (lastByte==0xaa && curByte==0x55) break;
 			lastByte = curByte;
 //			if (n>=1000) System.out.println("FORCE EXIT LOOP");
@@ -42,8 +41,7 @@ public class PixyCam {
 		
 		// check if there's another sync word
 		if (pspi.peekWord() == 0xaa55) {
-			pspi.readWord(); // skip over it
-			// handle frame boundary.....
+			return null;
 		}
 		
 		// read the block data
@@ -66,41 +64,6 @@ public class PixyCam {
 	}
 	
 	public Frame getFrame() {
-//		int c=0;
-//		while (true) {
-//			System.out.println("W"+(++c)+": " + Integer.toString(pspi.readWord(), 16));
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		System.out.println("Waiting for sync checksum");
-//		while (pspi.peekWord() != 0xaa55) { pspi.readWord(); }
-//		while (true) {
-//			System.out.println("Waiting for sync checksum");
-//			while (pspi.peekWord() != 0xaa55) { pspi.readWord(); }
-//			System.out.println("Sync status: "+ (pspi.peekWord() == 0xaa55) + " Word Seq: " + pspi.getWordsRead());
-//			System.out.println("Sync Word: " + Integer.toString(pspi.peekWord(), 16));
-//			System.out.println("Checksum Word: " + Integer.toString(pspi.readWord(), 16));
-//			System.out.println("Sig Word: " + Integer.toString(pspi.readWord(), 16));
-//			System.out.println("Cx Word: " + Integer.toString(pspi.readWord(), 16));
-//			System.out.println("Cy Word: " + Integer.toString(pspi.readWord(), 16));
-//			System.out.println("W Word: " + Integer.toString(pspi.readWord(), 16));
-//			System.out.println("H Word: " + Integer.toString(pspi.readWord(), 16));
-//			System.out.println("=========BLOCK END=======");
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		return null;
-//		// Wait for sync (0x55aa)
-//		System.out.println("Waiting for sync checksum");
-//		while (pspi.peekWord() != 0xaa55) {pspi.readWord();}
 		
 		
 		System.out.println("getFrame");
@@ -109,7 +72,7 @@ public class PixyCam {
 			Frame.Block b = parseBlock();
 			System.out.println("parseBlock done");
 			if (b == null) break;
-//			blocks.add(b);
+			blocks.add(b);
 			System.out.println("Block added: " + b);
 			
 			
