@@ -32,11 +32,12 @@ public class PixyCamStuff {
 		
 		// Wait for sync
 		int lastByte = 0x00;
-		for (int n=0; n<100; n++) {
+		for (int n=0; true; n++) {
 			int curByte = pspi.readByte();
 //			System.out.println("curByte = "+curByte);
 			if (lastByte==0xaa && curByte==0x55) break;
 			lastByte = curByte;
+//			if (n>=1000) System.out.println("FORCE EXIT LOOP");
 		}
 		
 		// check if there's another sync word
@@ -54,8 +55,13 @@ public class PixyCamStuff {
 		block.height = pspi.readWord();
 		int chk = block.signature+block.centerX+block.centerY+block.width+block.height;
 		if (block.checksum != chk) {
-			System.out.println("BLOCK HAD AN INVALID CHECKSUM: ");
+			System.out.println("BLOCK HAD AN INVALID CHECKSUM ("+Integer.toHexString(block.checksum)+", should be "+Integer.toHexString(chk)+")");
 		}
+//		for (int n=0; n<6; n++) {
+//			System.out.println("block byte: "+Integer.toHexString(pspi.readWord()));
+//		}
+		PeekableSPI.visualizeBytes(pspi.byteStream);
+		pspi.byteStream.clear();
 		return block;
 	}
 	
@@ -108,7 +114,7 @@ public class PixyCamStuff {
 			
 			
 			try {
-				Thread.sleep(100);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
