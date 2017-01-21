@@ -31,7 +31,12 @@ public class Frame {
 	
 	@Override
 	public String toString() {
-		return "Frame{ blockCount: "+blocks.size()+", id: "+ id +" }";
+		String str = "Frame{ blockCount: "+blocks.size()+", id: "+ id;
+		for (Frame.Block b : blocks) {
+			str += "\n    "+b;
+		}
+		str += "\n}";
+		return str;
 	}
 	
 	protected List<Frame.Block> blocks;

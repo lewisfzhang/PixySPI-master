@@ -11,13 +11,11 @@ public class PeekableSPI {
 		getNextWord();
 	}
 	
-	public ArrayList<Integer> byteStream = new ArrayList<>();
 	private byte getByte(byte data)
 	{
 		byte[] send = new byte[] {data};
 		byte[] recv = new byte[send.length];
 		spi.transaction(send, recv, recv.length);
-		byteStream.add(Byte.toUnsignedInt(recv[0]));
 		return recv[0];
 	}
 	
@@ -54,7 +52,6 @@ public class PeekableSPI {
 	private void getNextWord() {
 		nextWord = getWord();
 		++wordsRead;
-//		System.out.println("Word: "+ Integer.toString(nextWord, 16));
 	}
 	
 	private static int makeWord(byte msb, byte lsb) {
