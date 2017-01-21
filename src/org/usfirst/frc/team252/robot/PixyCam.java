@@ -5,9 +5,9 @@ import java.util.List;
 
 import edu.wpi.first.wpilibj.SPI;
 
-public class PixyCamStuff {
+public class PixyCam {
 	
-	public PixyCamStuff() {
+	public PixyCam() {
 		SPI spi = new SPI(SPI.Port.kOnboardCS0);
 		spi.setMSBFirst();
 		spi.setClockActiveHigh();

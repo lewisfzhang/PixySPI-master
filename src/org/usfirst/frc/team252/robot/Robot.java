@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
-	private PixyCamStuff _p = new PixyCamStuff();
+	private PixyCam _p = new PixyCam();
 	private SpiLogger _spiLogger = new SpiLogger();
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
