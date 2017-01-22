@@ -9,7 +9,7 @@ import org.usfirst.frc.team252.robot.Frame.Block;
 
 public class AdjustBlock {
 	public Block AdjustBlock(Block block) {
-		BufferedImage img = new BufferedImage(block.width, block.height, 5);
+		BufferedImage img = new BufferedImage(block.width, block.height, 1); // 1 is RGB
 		img = rawToImage(block);
 		img = undistortImage(img);
 		block = imageToRaw(img);
@@ -17,7 +17,7 @@ public class AdjustBlock {
 	}
 
 	private BufferedImage rawToImage(Block block) {
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 	
