@@ -1,4 +1,4 @@
-package org.usfirst.frc.team252.robot;
+package com.team254.frc2017.pixy;
 
 import java.util.*;
 
@@ -62,9 +62,7 @@ public class PeekableSPI {
 	
 	private SPI spi;
 	private int nextWord;
-	private long wordsRead = 0;
-	
-	
+	private long wordsRead = 0;	
 	
 	
 	public static String hexByte(int b) {
