@@ -2,9 +2,9 @@ package com.team254.frc2017.pixy;
 
 import java.util.List;
 
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.imgproc.Imgproc;
 
 public class Frame {
@@ -26,9 +26,18 @@ public class Frame {
 			Mat cameraMatrix = new Mat();
 			Mat distCoeffs = new Mat();
 			
-			Mat trainingDataMat = new Mat(4, 2, CvType.CV_64FC1);
-			for (int i = 0; i < 4; i++) {
-//				trainingDataMat.put(i,0, trainingData[i]);
+			src.fromArray(new Point(centerX, centerY), new Point(centerX - width / 2, centerY - height / 2), new Point(centerX + width / 2, centerY + height / 2));
+			
+			for (int i = 0; i < PixyConstants.cameraMatrix.length; i++) {
+				for (int j = 0; j < PixyConstants.cameraMatrix[i].length; j++) {
+					cameraMatrix.put(i, j, PixyConstants.cameraMatrix[i][j]);
+				}
+			}
+			
+			for (int i = 0; i < PixyConstants.distCoeffs.length; i++) {
+				for (int j = 0; j < PixyConstants.distCoeffs[i].length; j++) {
+					distCoeffs.put(i, j, PixyConstants.distCoeffs[i][j]);
+				}
 			}
 			
 			Imgproc.undistortPoints(src, dst, cameraMatrix, distCoeffs);

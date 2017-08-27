@@ -693,22 +693,22 @@ static void saveCameraParams(Settings& s, Size& imageSize, Mat& cameraMatrix, Ma
     fs << "Camera_Matrix" << cameraMatrix;
     fs << "Distortion_Coefficients" << distCoeffs;
     
-    string path = "../src/com/team254/frc2017/pixy/PixyNumberConstants.java";
+    string path = "../src/com/team254/frc2017/pixy/PixyConstants.java";
     ofstream myfile(path);
     myfile << "package com.team254.frc2017.pixy;\n\n";
     myfile << "public class PixyConstants {\n";
     
-    myfile << "        public double[] cameraMatrix = { {"
+    myfile << "        public static double[][] cameraMatrix = {{"
         << cameraMatrix.at<double> (0, 0) << ", " << cameraMatrix.at<double> (0, 1) << ", " << cameraMatrix.at<double> (0, 2) << "}, {"
         << cameraMatrix.at<double> (1, 0) << ", " << cameraMatrix.at<double> (1, 1) << ", " << cameraMatrix.at<double> (1, 2) << "}, {"
-        << cameraMatrix.at<double> (2, 0) << ", " << cameraMatrix.at<double> (2, 1) << ", " << cameraMatrix.at<double> (2, 2) << "} };\n";
+        << cameraMatrix.at<double> (2, 0) << ", " << cameraMatrix.at<double> (2, 1) << ", " << cameraMatrix.at<double> (2, 2) << "}};\n";
     
-    myfile << "        public double[] distCoeffs = { {"
+    myfile << "        public static double[][] distCoeffs = {{"
         << distCoeffs.at<double> (0, 0) << "}, {"
         << distCoeffs.at<double> (1, 0) << "}, {"
         << distCoeffs.at<double> (2, 0) << "}, {"
         << distCoeffs.at<double> (3, 0) << "}, {"
-        << distCoeffs.at<double> (4, 0) << "};\n";
+        << distCoeffs.at<double> (4, 0) << "}};\n";
     
     myfile << "}";
     
