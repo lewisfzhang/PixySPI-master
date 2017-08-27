@@ -3,7 +3,6 @@ package com.team254.frc2017.pixy;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,8 +37,11 @@ public class Robot extends IterativeRobot {
 		{
 			while (true) {
 				Frame f = _p.getFrame();
-				System.out.println("frame:: - "+f.toString());
-				SmartDashboard.putString("frame", f.toString());
+				System.out.println("original frame:: - "+f.toString());
+				SmartDashboard.putString("original frame", f.toString());
+				f.undistortFrame();
+				System.out.println("undistorted frame:: - "+f.toString());
+				SmartDashboard.putString("undistorted frame", f.toString());
 			}
 		}
 		catch (Exception e)
