@@ -1,1 +1,1 @@
-g++ camera_calibration.cpp -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_calib3d -lusb-1.0 -I/usr/local/include/libusb-1.0 ./pixy/libpixyusb/libpixyusb.a -lboost_timer -lboost_chrono -lboost_thread-mt -lboost_system 
+g++ camera_calibration.cpp -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs -lusb-1.0 -I/usr/local/include/libusb-1.0 ./pixy/libpixyusb/libpixyusb.a -lboost_timer -lboost_chrono -lboost_thread-mt -lboost_system

@@ -14,9 +14,7 @@
 #include <signal.h>
 #include <string.h>
 #include <math.h>
-extern "C" {
-#include "pixy.h"
-}
+#include "pixy/src/host/libpixyusb/include/pixy.h"
 
 #include <opencv2/opencv.hpp>
 #include <opencv/cv.h>
