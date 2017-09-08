@@ -1,12 +1,10 @@
-#include <iostream>
-#include <cstdint>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 #include "pixy/src/host/libpixyusb/include/pixy.h"
 
-using namespace std;
-using namespace cv;
-
-inline void interpolateBayer(uint16_t width, uint16_t x, uint16_t y, uint8_t *pixel, uint8_t* r, uint8_t* g, uint8_t* b) {
+void interpolateBayer(uint16_t width, uint16_t x, uint16_t y, uint8_t *pixel, uint8_t* r, uint8_t* g, uint8_t* b) {
     if (y&1) {
         if (x&1) {
             *r = *pixel;
@@ -30,10 +28,10 @@ inline void interpolateBayer(uint16_t width, uint16_t x, uint16_t y, uint8_t *pi
     }
 }
 
-Mat renderBA81(uint8_t renderFlags, uint16_t width, uint16_t height, uint32_t frameLen, uint8_t *frame) {
+cv::Mat renderBA81(uint8_t renderFlags, uint16_t width, uint16_t height, uint32_t frameLen, uint8_t *frame) {
     uint16_t x, y;
     uint8_t r, g, b;
-    Mat imageRGB;
+    cv::Mat imageRGB;
 
     frame += width;
     uchar *data = new uchar[3*((height-2)*(width-2))];
@@ -50,13 +48,13 @@ Mat renderBA81(uint8_t renderFlags, uint16_t width, uint16_t height, uint32_t fr
         frame++;
     }
 
-    imageRGB = Mat(height - 2,width -2, CV_8UC3, data);
+    imageRGB = cv::Mat(height - 2,width -2, CV_8UC3, data);
     delete[] data;
 
     return imageRGB;
 }
 
-Mat getImage() {
+cv::Mat getImage() {
     unsigned char *pixels;
     int32_t response, fourcc;
     int8_t renderflags;
@@ -75,11 +73,11 @@ Mat getImage() {
                                  0,              // separator
                                  &response, &fourcc, &renderflags, &rwidth, &rheight, &numPixels, &pixels, 0);
 
-    Mat img = renderBA81(renderflags,rwidth,rheight,numPixels,pixels);
+    cv::Mat img = renderBA81(renderflags,rwidth,rheight,numPixels,pixels);
 
-    cvtColor(img, img, CV_BGR2HSV);
+    cv::cvtColor(img, img, CV_BGR2HSV);
 
-    inRange(img, Scalar(0, 0, 0), Scalar(255, 255, 255), img);
+    inRange(img, cv::Scalar(0, 0, 0), cv::Scalar(255, 255, 255), img);
 
     return img;
 }
