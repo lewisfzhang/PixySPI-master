@@ -1,1 +1,0 @@
-g++ ImageProcessor.cpp -lopencv_core -lopencv_highgui -lopencv_imgproc -lusb-1.0 -I/usr/local/include/libusb-1.0 ./pixy/libpixyusb/libpixyusb.a -lboost_chrono -lboost_thread-mt -lboost_system

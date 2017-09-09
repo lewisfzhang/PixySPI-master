@@ -2,7 +2,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "pixy/src/host/libpixyusb/include/pixy.h"
+#include "../pixy/src/host/libpixyusb/include/pixy.h"
 
 void interpolateBayer(uint16_t width, uint16_t x, uint16_t y, uint8_t *pixel, uint8_t* r, uint8_t* g, uint8_t* b) {
     if (y&1) {
