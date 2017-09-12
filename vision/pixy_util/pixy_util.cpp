@@ -61,20 +61,33 @@ cv::Mat renderBA81(uint8_t renderFlags, uint16_t width, uint16_t height, uint32_
 
 static cv::Mat processImage(cv::Mat src) {
     cv::Mat dst;
+    std::cout << "Initialized dst" << std::endl;
     src.copyTo(dst);
+    std::cout << "Copied src to dst" << std::endl;    
 
-    // cv::cvtColor(dst, dst, CV_BGR2HSV);
+    cv::cvtColor(dst, dst, CV_BGR2HSV);
+    std::cout << "Converted dst from BGR to HSV" << std::endl;    
 
-    inRange(dst, cv::Scalar(180, 190, 90), cv::Scalar(255, 255, 200), dst);
+    inRange(dst, cv::Scalar(90, 128, 128), cv::Scalar(180, 180, 180), dst);
+    std::cout << "Thresholded dst" << std::endl;    
 
     std::vector<std::vector<cv::Point> > contours;
+    std::cout << "Initialized countours" << std::endl;    
     std::vector<cv::Vec4i> hierarchy;
-    cv::findContours(dst, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+    std::cout << "Iniatlized hierarchy" << std::endl;
+    
+    cv::findContours(dst, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_NONE);
+    std::cout << "Found countours" << std::endl;    
 
     for(int i = 0; i >= 0; i = hierarchy[i][0]) {
-        cv::Scalar color(255, 0, 0);
+        std::cout << "Started for iteration" << std::endl;        
+        cv::Scalar color(180, 255, 255);
+        std::cout << "Initialized color" << std::endl;        
         drawContours(dst, contours, i, color, CV_FILLED, 8, hierarchy);
+        std::cout << "Drew countours" << std::endl;        
     }
+
+    std::cout << "Ended for loop" << std::endl;    
 
     return dst;
 }
