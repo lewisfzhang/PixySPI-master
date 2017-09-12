@@ -691,7 +691,7 @@ static void saveCameraParams(Settings& s, Size& imageSize, Mat& cameraMatrix, Ma
     fs << "Camera_Matrix" << cameraMatrix;
     fs << "Distortion_Coefficients" << distCoeffs;
     
-    string path = "../src/com/team254/frc2017/pixy/PixyConstants.java";
+    string path = "../../src/com/team254/frc2017/pixy/PixyConstants.java";
     ofstream myfile(path);
     myfile << "package com.team254.frc2017.pixy;\n\n";
     myfile << "public class PixyConstants {\n";
