@@ -34,12 +34,16 @@ inline void interpolateBayer(uint16_t width, uint16_t x, uint16_t y, uint8_t *pi
 }
 
 cv::Mat renderBA81(uint8_t renderFlags, uint16_t width, uint16_t height, uint32_t frameLen, uint8_t *frame) {
+    std::cout << "Started renderBA81" << std::endl;
+    
     uint16_t x, y;
     uint8_t r, g, b;
     cv::Mat imageRGB;
 
     frame += width;
+    std::cout << "Starting to create array [" << 3*((height-2)*(width-2)) << "]" << std::endl;        
     uchar *data = new uchar[3*((height-2)*(width-2))];
+    std::cout << "Created array" << std::endl;        
     uint m = 0;
 
     for (y=1; y<height-1; y++) {
@@ -55,6 +59,7 @@ cv::Mat renderBA81(uint8_t renderFlags, uint16_t width, uint16_t height, uint32_
 
     imageRGB = cv::Mat(height - 2, width - 2, CV_8UC3, data);
     delete[] data;
+    std::cout << "Ended renderBA81" << std::endl;    
 
     return imageRGB;
 }
@@ -68,7 +73,7 @@ static cv::Mat processImage(cv::Mat src) {
     cv::cvtColor(dst, dst, CV_BGR2HSV);
     std::cout << "Converted dst from BGR to HSV" << std::endl;    
 
-    inRange(dst, cv::Scalar(90, 128, 128), cv::Scalar(180, 180, 180), dst);
+    inRange(dst, cv::Scalar(0, 0, 0), cv::Scalar(90, 128, 128), dst);
     std::cout << "Thresholded dst" << std::endl;    
 
     std::vector<std::vector<cv::Point> > contours;
