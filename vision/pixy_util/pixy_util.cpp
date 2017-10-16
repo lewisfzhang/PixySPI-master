@@ -72,8 +72,6 @@ static cv::Mat processImage(cv::Mat src) {
     
     cv::findContours(dst, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_NONE);
 
-    std::cout << "Countours Size: " << contours.size() << std::endl;    
-    std::cout << "Hierarchy Size: " << hierarchy.size() << std::endl;
     for(int i = 0; contours.size() != 0 && hierarchy.size() != 0 && i >= 0; i = hierarchy[i][0]) {
         cv::Scalar color(180, 255, 255);
         drawContours(dst, contours, i, color, CV_FILLED, 8, hierarchy);
@@ -102,8 +100,6 @@ cv::Mat getImage() {
                                  0x02, 200,      // height
                                  0,              // separator
                                  &response, &fourcc, &renderflags, &rwidth, &rheight, &numPixels, &pixels, 0);
-
-    std::cout << "Return Value of pixy_command: " << return_value << std::endl;
 
     if (return_value >= 0 && rwidth > 2 && rheight > 2)
         return processImage(renderBA81(renderflags,rwidth,rheight,numPixels,pixels));
