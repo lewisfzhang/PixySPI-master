@@ -1,4 +1,4 @@
-package com.team254.frc2017.pixy;
+package com.team254.frc2017;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -6,6 +6,8 @@ import java.io.StringWriter;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.team254.frc2017.vision.PixyCam;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -15,12 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
-	private PixyCam _p = new PixyCam();
-	private SpiLogger _spiLogger = new SpiLogger();
-	String autoSelected;
-	SendableChooser<String> chooser = new SendableChooser<>();
+	private static PixyCam mPixyCamera = new PixyCam();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -28,33 +25,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		// chooser.addDefault("Default Auto", defaultAuto);
-		// chooser.addObject("My Auto", customAuto);
-		// SmartDashboard.putData("Auto choices", chooser);
-
-		SmartDashboard.putString("cp1", "checkpoint #1 what");
-		try {
-			while (true) {
-				Frame f = _p.getFrame();
-				System.out.println("original frame:: - " + f.toString());
-				SmartDashboard.putString("original frame", f.toString());
-				f.undistortFrame();
-				System.out.println("undistorted frame:: - " + f.toString());
-				SmartDashboard.putString("undistorted frame", f.toString());
-			}
-		} catch (Exception e) {
-			SmartDashboard.putString("ex caught", "rrrrr");
-			StringWriter writer = new StringWriter();
-			e.printStackTrace(new PrintWriter(writer));
-			SmartDashboard.putString("err", writer.toString());
-		}
-		// try {
-		// _spiLogger.startLogging();
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		SmartDashboard.putString("cp2", "test plz work");
+		mPixyCamera.init();
 	}
 
 	/**
@@ -69,18 +40,10 @@ public class Robot extends IterativeRobot {
 	 * make sure to add them to the chooser code above as well.
 	 */
 	@Override
-	public void autonomousInit() {
-		// autoSelected = chooser.getSelected();
-		// // autoSelected = SmartDashboard.getString("Auto Selector",
-		// // defaultAuto);
-		// System.out.println("Auto selected: " + autoSelected);
-	}
+	public void autonomousInit() {}
 
 	@Override
-	public void disabledPeriodic() {
-		// Frame f = _p.getFrame();
-		// SmartDashboard.putString("frame", f.toString());
-	}
+	public void disabledPeriodic() {}
 
 	/**
 	 * This function is called periodically during autonomous
@@ -104,12 +67,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		mPixyCamera.nextImage();
 	}
 
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
-	public void testPeriodic() {
-	}
+	public void testPeriodic() {}
 }
