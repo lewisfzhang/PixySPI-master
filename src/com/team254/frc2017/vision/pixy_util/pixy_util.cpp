@@ -103,10 +103,7 @@ cv::Mat getImage() {
                                  0,              // separator
                                  &response, &fourcc, &renderflags, &rwidth, &rheight, &numPixels, &pixels, 0);
 
-    std::cout << "Return Value of pixy_command: " << return_value << std::endl;
-
-    if (return_value < 0)
-        pixy_error(return_value);
+    pixy_error(return_value);
 
     if (return_value >= 0 && rwidth > 2 && rheight > 2)
         return processImage(renderBA81(renderflags,rwidth,rheight,numPixels,pixels));
