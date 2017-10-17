@@ -105,6 +105,9 @@ cv::Mat getImage() {
 
     std::cout << "Return Value of pixy_command: " << return_value << std::endl;
 
+    if (return_value < 0)
+        pixy_error(return_value);
+
     if (return_value >= 0 && rwidth > 2 && rheight > 2)
         return processImage(renderBA81(renderflags,rwidth,rheight,numPixels,pixels));
     return cv::Mat::zeros(200, 320, CV_8UC3);        
@@ -135,5 +138,7 @@ int main() {
         while (cvWaitKey(1) == -1) {
             imshow("Pixy Feed", pixy_util::nextImage());
         }
+
+        pixy_close();
     }
 }
